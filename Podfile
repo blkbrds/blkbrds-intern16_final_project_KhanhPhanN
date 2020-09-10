@@ -11,4 +11,7 @@ pod 'SwifterSwift'
 pod 'ObjectMapper'
 pod 'MVVM-Swift'
 pod 'SwiftUtils', '4.2', :inhibit_warnings => true
+pod 'RealmSwift'
+pod 'SVProgressHUD'
+pod 'SDWebImage', '~> 5.0'
 end
