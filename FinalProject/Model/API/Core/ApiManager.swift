@@ -17,6 +17,9 @@ typealias APICompletion = (APIResult) -> Void
 typealias DataCompletion<Value> = (Result<Value>) -> Void
 typealias ProcessCompletion = () -> Void
 
+typealias PodcastCompletion = ([Podcast]) -> Void
+typealias EpisodeCompletion = ([Episode]) -> Void
+
 enum APIResult {
     case success
     case failure(Error)
