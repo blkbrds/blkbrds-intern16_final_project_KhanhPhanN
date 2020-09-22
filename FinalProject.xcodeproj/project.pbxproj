@@ -80,6 +80,7 @@
 		F0208AB52519E47300C2C168 /* API.Featured.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0208AB42519E47300C2C168 /* API.Featured.swift */; };
 		F0208AB72519F31000C2C168 /* String.Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0208AB62519F31000C2C168 /* String.Ext.swift */; };
 		F0208AB92519F34B00C2C168 /* RSSFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0208AB82519F34B00C2C168 /* RSSFeed.swift */; };
+		F0208AC0251A05B500C2C168 /* UIImageView.Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0208ABF251A05B500C2C168 /* UIImageView.Ext.swift */; };
 		F394C983A276A0328ED4448A /* Pods_FinalProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD3EFD8E62132522E716F26A /* Pods_FinalProject.framework */; };
 /* End PBXBuildFile section */
 
@@ -162,6 +163,7 @@
 		F0208AB42519E47300C2C168 /* API.Featured.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.Featured.swift; sourceTree = "<group>"; };
 		F0208AB62519F31000C2C168 /* String.Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.Ext.swift; sourceTree = "<group>"; };
 		F0208AB82519F34B00C2C168 /* RSSFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSFeed.swift; sourceTree = "<group>"; };
+		F0208ABF251A05B500C2C168 /* UIImageView.Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.Ext.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				6ED44CC6250A8357006DA53B /* Ext */,
+				F0208ABF251A05B500C2C168 /* UIImageView.Ext.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -678,6 +681,7 @@
 				F014E61625185C5300CF362D /* Podcast.swift in Sources */,
 				6ED44CDD250A8357006DA53B /* BundleExt.swift in Sources */,
 				6ED44CBF250A8320006DA53B /* RequestSerializer.swift in Sources */,
+				F0208AC0251A05B500C2C168 /* UIImageView.Ext.swift in Sources */,
 				6ED44CE0250A8357006DA53B /* CollectionExt.swift in Sources */,
 				F014E60025185B7800CF362D /* DownloadViewModel.swift in Sources */,
 				F014E5CF251859E700CF362D /* ItemsCollectionCell.swift in Sources */,

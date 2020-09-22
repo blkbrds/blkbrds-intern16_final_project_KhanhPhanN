@@ -10,4 +10,15 @@ import Foundation
 
 final class SearchCellViewModel {
     
+    private(set) var trackName: String
+    private(set) var artistName: String
+    private(set) var artworkUrl600: String
+    private(set) var primaryGenreName: String
+    
+    init(trackName: String, artistName: String, artworkUrl600: String, primaryGenreName: String) {
+        self.trackName = trackName
+        self.artistName = artistName
+        self.artworkUrl600 = artworkUrl600
+        self.primaryGenreName = primaryGenreName
+    }
 }

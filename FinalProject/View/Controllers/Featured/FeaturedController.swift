@@ -75,7 +75,12 @@ extension FeaturedController {
 extension FeaturedController: ItemsTableCellDelegate {
     
     func cell(_ cell: ItemsCollectionCell, needsPerform action: ItemsTableCell.Action) {
-
+        switch action {
+        case .didSelectCell(let value):
+            let episodesViewModel = EpisodesViewModel(podcast: value)
+            let episodesController = EpisodesController(viewModel: episodesViewModel)
+            navigationController?.pushViewController(episodesController, animated: true)
+        }
     }
 }
 
@@ -83,6 +88,11 @@ extension FeaturedController: ItemsTableCellDelegate {
 extension FeaturedController: HeaderTableCellDelegate {
     
     func cell(_ cell: HeaderTableCell, needsPerform action: HeaderTableCell.Action) {
-
+        switch action {
+        case .didSelectCell(let value):
+            let episodesViewModel = EpisodesViewModel(podcast: value)
+            let episodesController = EpisodesController(viewModel: episodesViewModel)
+            navigationController?.pushViewController(episodesController, animated: true)
+        }
     }
 }

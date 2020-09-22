@@ -7,18 +7,30 @@
 //
 
 import UIKit
+import SDWebImage
 
-class EpisodesCell: UITableViewCell {
+final class EpisodesCell: UITableViewCell {
+    
+    var viewModel: EpisodesCellViewModel? {
+        didSet {
+            updateUI()
+        }
+    }
 
+    @IBOutlet private weak var trackImageView: UIImageView!
+    @IBOutlet private weak var trackNameLabel: UILabel!
+    @IBOutlet private weak var descriptionLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
+    private func updateUI() {
+        trackNameLabel.text = viewModel?.title
+        descriptionLabel.text = viewModel?.description
+        
+        guard let url = URL(string: viewModel?.imageUrl.httpsUrlString ?? "") else { return }
+        trackImageView.sd_setImage(with: url, placeholderImage: nil, options: .highPriority, context: [.imageThumbnailPixelSize: CGSize(width: 100, height: 100)])
+        trackImageView.sd_imageTransition = .fade
+    }
 }
