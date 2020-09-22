@@ -1,0 +1,18 @@
+//
+//  ItemsCollectionCell.swift
+//  FinalProject
+//
+//  Created by PCI0007 on 9/21/20.
+//  Copyright © 2020 MBA0176. All rights reserved.
+//
+
+import UIKit
+
+class ItemsCollectionCell: UICollectionViewCell {
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+
+}
