@@ -86,8 +86,8 @@ extension String {
     }
 
     func jsonDecode() -> String {
-        guard let decoded: String? = try? JSONSerialization.jsonObject(with: Data("\"\(self)\"".utf8), options: .allowFragments) as? String,
-            let data: Data = decoded?.data(using: .unicode),
+        guard let decoded: String = try? JSONSerialization.jsonObject(with: Data("\"\(self)\"".utf8), options: .allowFragments) as? String,
+            let data: Data = decoded.data(using: .unicode),
             let str: String = String(data: data, encoding: .unicode) else { return self }
         return str
     }
