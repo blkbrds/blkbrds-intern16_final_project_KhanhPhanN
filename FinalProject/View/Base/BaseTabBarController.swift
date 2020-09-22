@@ -8,23 +8,33 @@
 
 import UIKit
 
-class BaseTabBarController: UITabBarController {
+final class BaseTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setupViewControllers()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setupViewControllers() {
+        let layout = UICollectionViewFlowLayout()
+        let favouriteVC = FavouritesController(collectionViewLayout: layout)
+        let favouriteNavi = UINavigationController(rootViewController: favouriteVC)
+        favouriteVC.tabBarItem = UITabBarItem(title: "Favourites", image: #imageLiteral(resourceName: "favourite"), selectedImage: #imageLiteral(resourceName: "favourite-sel"))
+        
+        let searchVC = SearchController()
+        let searchNavi = UINavigationController(rootViewController: searchVC)
+        searchVC.tabBarItem = UITabBarItem(title: "Search", image: #imageLiteral(resourceName: "search"), selectedImage: #imageLiteral(resourceName: "search-sel"))
+        
+        let featuredVC = FeaturedController()
+        let featuredNavi = UINavigationController(rootViewController: featuredVC)
+        featuredVC.tabBarItem = UITabBarItem(title: "Featured", image: #imageLiteral(resourceName: "star"), selectedImage: #imageLiteral(resourceName: "star-sel"))
+        
+        let downloadVC = DownloadController()
+        let downloadNavi = UINavigationController(rootViewController: downloadVC)
+        downloadVC.tabBarItem = UITabBarItem(title: "Download", image: #imageLiteral(resourceName: "album"), selectedImage: #imageLiteral(resourceName: "album-sel"))
+        
+        viewControllers = [featuredNavi, searchNavi, favouriteNavi, downloadNavi]
+        tabBar.tintColor = .systemOrange
+        tabBar.barTintColor = .black
     }
-    */
-
 }
