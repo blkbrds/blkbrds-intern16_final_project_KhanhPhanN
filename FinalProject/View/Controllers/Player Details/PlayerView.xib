@@ -26,6 +26,9 @@
                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="8U9-Re-cgU">
                                     <rect key="frame" x="-2" y="0.0" width="386" height="31"/>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <connections>
+                                        <action selector="handleTimeSliderTouchUpInside:" destination="iN0-l3-epB" eventType="valueChanged" id="nyM-x7-udQ"/>
+                                    </connections>
                                 </slider>
                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SOI-96-SV9">
                                     <rect key="frame" x="0.0" y="26" width="382" height="17"/>
@@ -58,6 +61,9 @@
                                     <state key="normal" image="repeat.1" catalog="system">
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20"/>
                                     </state>
+                                    <connections>
+                                        <action selector="handleLoppTouchUpInside:" destination="iN0-l3-epB" eventType="touchUpInside" id="CXC-po-EoK"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wm2-R2-BBg">
                                     <rect key="frame" x="76.5" y="0.0" width="76.5" height="68"/>
@@ -65,6 +71,9 @@
                                     <state key="normal" image="backward.end.fill" catalog="system">
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="32"/>
                                     </state>
+                                    <connections>
+                                        <action selector="handleBackwardTouchUpInside:" destination="iN0-l3-epB" eventType="touchUpInside" id="JzO-M3-ao1"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Psd-8l-b50">
                                     <rect key="frame" x="153" y="0.0" width="76" height="68"/>
@@ -72,6 +81,9 @@
                                     <state key="normal" image="pause.circle.fill" catalog="system">
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="60"/>
                                     </state>
+                                    <connections>
+                                        <action selector="handlePlayPauseTouchUpInside:" destination="iN0-l3-epB" eventType="touchUpInside" id="xz0-13-yiZ"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCh-UM-nBp">
                                     <rect key="frame" x="229" y="0.0" width="76.5" height="68"/>
@@ -79,6 +91,9 @@
                                     <state key="normal" image="forward.end.fill" catalog="system">
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="32"/>
                                     </state>
+                                    <connections>
+                                        <action selector="handleForwardTouchUpInside:" destination="iN0-l3-epB" eventType="touchUpInside" id="CWC-He-o86"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sLv-9m-XlM">
                                     <rect key="frame" x="305.5" y="0.0" width="76.5" height="68"/>
@@ -86,6 +101,9 @@
                                     <state key="normal" image="music.note.list" catalog="system">
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20"/>
                                     </state>
+                                    <connections>
+                                        <action selector="handlePlaylistTouchUpInside:" destination="iN0-l3-epB" eventType="touchUpInside" id="oNH-vU-zkC"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <constraints>
@@ -116,6 +134,9 @@
                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="26o-xL-MCV">
                                     <rect key="frame" x="24.5" y="5.5" width="333" height="31"/>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <connections>
+                                        <action selector="handleVolumeTouchUpInside:" destination="iN0-l3-epB" eventType="valueChanged" id="mBN-bM-BTg"/>
+                                    </connections>
                                 </slider>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="max_volume" translatesAutoresizingMaskIntoConstraints="NO" id="v0K-63-yqM">
                                     <rect key="frame" x="355.5" y="4.5" width="26.5" height="32.5"/>
@@ -152,6 +173,9 @@
                             <state key="normal" title="Dismiss">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
+                            <connections>
+                                <action selector="handleDismissTouchUpInside:" destination="iN0-l3-epB" eventType="touchUpInside" id="xnE-JL-xES"/>
+                            </connections>
                         </button>
                     </subviews>
                     <constraints>
@@ -242,14 +266,6 @@
                 <outlet property="backgroundImageView" destination="jPt-Yq-vV9" id="oWp-fC-Mch"/>
                 <outlet property="currentTimeLabel" destination="ATh-2b-UKE" id="Lj1-7i-1ZI"/>
                 <outlet property="durationLabel" destination="sT0-cF-Xtf" id="dd8-tz-WSY"/>
-                <outlet property="handleBackwardTouchUpInside" destination="wm2-R2-BBg" id="oI2-lm-ZSU"/>
-                <outlet property="handleDismissTouchUpInside" destination="wB5-Al-GNK" id="z5l-qO-L8Q"/>
-                <outlet property="handleForwardTouchUpInside" destination="wCh-UM-nBp" id="e7L-gP-GxQ"/>
-                <outlet property="handleLoppTouchUpInside" destination="EgW-Pg-FDl" id="OoQ-Ob-f8i"/>
-                <outlet property="handlePlayPauseTouchUpInside" destination="Psd-8l-b50" id="OLO-pQ-Cwz"/>
-                <outlet property="handlePlaylistTouchUpInside" destination="sLv-9m-XlM" id="TZO-Ky-LVd"/>
-                <outlet property="handleTimeSliderTouchUpInside" destination="8U9-Re-cgU" id="Auc-d6-kh0"/>
-                <outlet property="handleVolumeTouchUpInside" destination="26o-xL-MCV" id="MQl-qz-5X8"/>
                 <outlet property="maximizedPlayerView" destination="CUK-dl-Hnb" id="PNO-D9-zqp"/>
                 <outlet property="miniAuthorLabel" destination="p5B-5x-dJ8" id="UTS-dv-UQ4"/>
                 <outlet property="miniPlayPauseButton" destination="Lh5-zv-P3c" id="wTA-Fc-fhe"/>

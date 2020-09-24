@@ -13,8 +13,11 @@ final class PlayerView: UIView {
     var viewModel: PlayerViewModel? {
         didSet {
             updateUI()
+            playEpisode()
         }
     }
+    
+    let playerService = PlayerService.managePlaying
 
     // MARK: - Outlets
     @IBOutlet weak var backgroundImageView: UIImageView!
@@ -36,6 +39,7 @@ final class PlayerView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setupView()
     }
     
     private func updateUI() {
@@ -47,16 +51,49 @@ final class PlayerView: UIView {
         miniTitleLabel.text = viewModel?.episode.title
         authorLabel.text = viewModel?.episode.author
         miniAuthorLabel.text = viewModel?.episode.author
+    }
+    
+    private func setupView() {
         backgroundImageView.addBlurEffect()
     }
     
+    private func playEpisode() {
+        playerService.playEpisode(urlString: viewModel?.episode.streamUrl ?? "")
+    }
+    
     // MARK: - Actions
-    @IBOutlet weak var handleDismissTouchUpInside: UIButton!
-    @IBOutlet weak var handleTimeSliderTouchUpInside: UISlider!
-    @IBOutlet weak var handleLoppTouchUpInside: UIButton!
-    @IBOutlet weak var handleBackwardTouchUpInside: UIButton!
-    @IBOutlet weak var handlePlayPauseTouchUpInside: UIButton!
-    @IBOutlet weak var handleForwardTouchUpInside: UIButton!
-    @IBOutlet weak var handlePlaylistTouchUpInside: UIButton!
-    @IBOutlet weak var handleVolumeTouchUpInside: UISlider!
+    @IBAction func handleDismissTouchUpInside(_ sender: UIButton) {
+        let mainTabBarController =  UIApplication.shared.keyWindow?.rootViewController as? BaseTabBarController
+        mainTabBarController?.minimizePlayerDetails()
+    }
+    
+    @IBAction func handleTimeSliderTouchUpInside(_ sender: UISlider) {
+    }
+    
+    @IBAction func handleLoppTouchUpInside(_ sender: UIButton) {
+        playerService.loop()
+    }
+    
+    @IBAction func handleBackwardTouchUpInside(_ sender: UIButton) {
+    }
+    
+    @IBAction func handlePlayPauseTouchUpInside(_ sender: UIButton) {
+        if playerService.player.timeControlStatus == .paused {
+            playerService.play()
+            playPauseButton.setImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
+        } else {
+            playerService.pause()
+            playPauseButton.setImage(UIImage(systemName: "play.circle.fill"), for: .normal)
+        }
+    }
+    
+    @IBAction func handleForwardTouchUpInside(_ sender: UIButton) {
+    }
+    
+    @IBAction func handlePlaylistTouchUpInside(_ sender: UIButton) {
+    }
+    
+    @IBAction func handleVolumeTouchUpInside(_ sender: UISlider) {
+    }
+    
 }
