@@ -73,3 +73,10 @@ final class EpisodesViewModel {
         }
     }
 }
+
+extension EpisodesViewModel {
+    
+    func viewModelForItem(indexPath: IndexPath) -> PlayerViewModel {
+        return PlayerViewModel(episode: episode[indexPath.row], playlist: episode)
+    }
+}
