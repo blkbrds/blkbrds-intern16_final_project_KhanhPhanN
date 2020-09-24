@@ -9,12 +9,22 @@
 import UIKit
 
 final class BaseTabBarController: UITabBarController {
+    
+    // MARK: - Properties
+//    guard let musicPlayerView = Bundle.main.loadNibNamed("PlayerView", owner: self, options: nil)?.first as? PlayerView else { return UIView() }
+    let musicPlayerView = Bundle.main.loadNibNamed("PlayerView", owner: self, options: nil)?.first as? PlayerView
+
+    var maximizedTopAnchorConstraint: NSLayoutConstraint!
+    var minimizedTopAnchorConstraint: NSLayoutConstraint!
+    var bottomAnchorConstraint: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewControllers()
+        setupPlayerDetailsView()
     }
     
+    // MARK: - Setup View Controllers
     private func setupViewControllers() {
         let layout = UICollectionViewFlowLayout()
         let favouriteVC = FavouritesController(collectionViewLayout: layout)
@@ -36,5 +46,50 @@ final class BaseTabBarController: UITabBarController {
         viewControllers = [featuredNavi, searchNavi, favouriteNavi, downloadNavi]
         tabBar.tintColor = .systemOrange
         tabBar.barTintColor = .black
+    }
+    
+    // MARK: - Setup Player Views
+    @objc func minimizePlayerDetails() {
+        maximizedTopAnchorConstraint.isActive = false
+        bottomAnchorConstraint.constant = view.frame.height
+        minimizedTopAnchorConstraint.isActive = true
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.view.layoutIfNeeded()
+            self.tabBar.frame.origin.y = self.view.frame.size.height - self.tabBar.frame.height
+            self.musicPlayerView?.miniPlayerView.alpha = 1
+            self.musicPlayerView?.maximizedPlayerView.alpha = 0
+        })
+    }
+    
+    func maximizePlayerDetails() {
+        minimizedTopAnchorConstraint.isActive = false
+        maximizedTopAnchorConstraint.isActive = true
+        maximizedTopAnchorConstraint.constant = 0
+        bottomAnchorConstraint.constant = 0
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.view.layoutIfNeeded()
+            self.tabBar.frame.origin.y = self.view.frame.size.height
+            self.musicPlayerView?.miniPlayerView.alpha = 0
+            self.musicPlayerView?.maximizedPlayerView.alpha = 1
+        })
+    }
+    
+    private func setupPlayerDetailsView() {
+        view.insertSubview(musicPlayerView ?? UIView(), belowSubview: tabBar)
+        musicPlayerView?.translatesAutoresizingMaskIntoConstraints = false
+        
+        maximizedTopAnchorConstraint = musicPlayerView?.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height)
+        maximizedTopAnchorConstraint.isActive = true
+        
+        bottomAnchorConstraint = musicPlayerView?.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: view.frame.height)
+        bottomAnchorConstraint.isActive = true
+        
+        minimizedTopAnchorConstraint = musicPlayerView?.topAnchor.constraint(equalTo: tabBar.topAnchor, constant: -(musicPlayerView?.miniPlayerView.frame.height ?? 0))
+        
+        musicPlayerView?.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        musicPlayerView?.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        tabBar.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 }

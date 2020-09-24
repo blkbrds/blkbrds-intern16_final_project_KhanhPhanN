@@ -125,6 +125,7 @@ extension EpisodesController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       
+       let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? BaseTabBarController
+       mainTabBarController?.maximizePlayerDetails()
     }
 }
