@@ -15,4 +15,5 @@ class Podcast: Object, Codable {
     @objc dynamic var artworkUrl600: String?
     @objc dynamic var primaryGenreName: String?
     @objc dynamic var feedUrl: String?
+    var trackCount: Int?
 }

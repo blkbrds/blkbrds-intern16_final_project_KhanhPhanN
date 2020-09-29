@@ -25,7 +25,8 @@ final class ItemsTableCellViewModel {
     }
     
     func getData(completion: @escaping (Bool) -> Void) {
-        Api.Featured.fetchPodcasts(genreID: genre.genreID) { (data) in
+        let limit = "20"
+        Api.Featured.fetchPodcasts(genreID: genre.genreID, limit: limit) { (data) in
             self.podcast = data
             completion(true)
         }

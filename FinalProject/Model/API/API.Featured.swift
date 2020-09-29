@@ -11,9 +11,9 @@ import Alamofire
 
 extension Api.Featured {
     
-    static func fetchPodcasts(genreID: String?, completionHandler: @escaping ([Podcast]) -> Void) {
+    static func fetchPodcasts(genreID: String?, limit: String, completionHandler: @escaping ([Podcast]) -> Void) {
         
-        var parameters = ["term": "podcast", "entity": "podcast", "limit": "20"]
+        var parameters = ["term": "podcast", "entity": "podcast", "limit": limit]
         let urlString = Api.Path.BaseDomain.path
         
         if let genreID = genreID {

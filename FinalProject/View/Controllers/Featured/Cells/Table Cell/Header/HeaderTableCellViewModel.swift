@@ -20,7 +20,8 @@ final class HeaderTableCellViewModel {
     }
     
     func getData(url: String, completion: @escaping (Bool) -> Void) {
-        Api.Featured.fetchPodcasts(genreID: nil) { (data) in
+        let limit = "20"
+        Api.Featured.fetchPodcasts(genreID: nil, limit: limit) { (data) in
             self.podcast = data
             completion(true)
         }
