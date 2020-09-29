@@ -8,6 +8,8 @@
 
 import Foundation
 import AVFoundation
+import MediaPlayer
+import AVKit
 
 final class PlayerService {
     
@@ -16,10 +18,20 @@ final class PlayerService {
     
     var player: AVPlayer = AVPlayer()
     
-    // MARK: - Control playing services
     func playEpisode(urlString: String) {
         guard let url = URL(string: urlString.httpsUrlString) else { return }
         let playerItem = AVPlayerItem(url: url)
+        player.replaceCurrentItem(with: playerItem)
+        player.play()
+    }
+    
+    func playEpisodeUsingFileUrl(urlString: String) {
+        guard let fileUrl = URL(string: urlString) else { return }
+        let fileName = fileUrl.lastPathComponent
+
+        guard var trueLocation = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        trueLocation.appendPathComponent(fileName)
+        let playerItem = AVPlayerItem(url: trueLocation)
         player.replaceCurrentItem(with: playerItem)
         player.play()
     }
@@ -32,10 +44,28 @@ final class PlayerService {
         player.pause()
     }
     
+    @objc func prevTrack() { }
+    
+    func nextTrack() { }
+    
     func loop() {
         NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: nil) { (_) in
             self.player.seek(to: CMTime.zero)
             self.player.play()
         }
+    }
+    
+    deinit {
+    
+    }
+    
+    func handleTimeSlider(sliderValue: Float) {
+        let percentage = sliderValue
+        guard let duration = player.currentItem?.duration else { return }
+        let durationInSeconds = CMTimeGetSeconds(duration)
+        let seekTimeInSeconds = Float64(percentage) * durationInSeconds
+        let seekTime = CMTimeMakeWithSeconds(seekTimeInSeconds, preferredTimescale: 1)
+        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = seekTimeInSeconds
+        player.seek(to: seekTime)
     }
 }
