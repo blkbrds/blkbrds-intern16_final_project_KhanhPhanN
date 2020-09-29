@@ -70,16 +70,9 @@ final class PlayerView: UIView {
     private func setupView() {
         backgroundImageView.addBlurEffect()
         rotateView()
-        setupGestures()
         setupTableView()
         observePlayerCurrentTime()
         scrollView.delegate = self
-    }
-    
-    private func setupGestures() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapMaximize))
-        miniPlayerView.addGestureRecognizer(tapGesture)
-        tapGesture.cancelsTouchesInView = false
     }
     
     private func rotateView(duration: Double = 5.0) {
@@ -96,6 +89,11 @@ final class PlayerView: UIView {
     @IBAction func handleDismissTouchUpInside(_ sender: UIButton) {
         let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? BaseTabBarController
         mainTabBarController?.minimizePlayerDetails()
+    }
+    
+    @IBAction func handleMaximizePlayerViewTouchUpInside(_ sender: UIButton) {
+        let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? BaseTabBarController
+        mainTabBarController?.maximizePlayerDetails()
     }
     
     @IBAction func handleTimeSliderTouchUpInside(_ sender: UISlider) {
@@ -145,20 +143,7 @@ final class PlayerView: UIView {
     }
     
     @IBAction func handleForwardTouchUpInside(_ sender: UIButton) {
-        guard let numberIndex = viewModel?.index else { return }
-        if numberIndex + 1 == viewModel?.playlist.count ?? 0 - 1 {
-            viewModel?.index = 0
-            guard let nextEpisode = viewModel?.playlist[0] else { return }
-            viewModel?.episode = nextEpisode
-            playerService.playEpisode(urlString: viewModel?.episode.streamUrl ?? "")
-            updateUI()
-        } else {
-            guard let nextEpisode = viewModel?.playlist[numberIndex + 1] else { return }
-            viewModel?.episode = nextEpisode
-            playerService.playEpisode(urlString: viewModel?.episode.streamUrl ?? "")
-            updateUI()
-            viewModel?.index += 1
-        }
+        playNextTrack()
     }
     
     @IBAction func handlePlaylistTouchUpInside(_ sender: UIButton) {
@@ -200,11 +185,28 @@ extension PlayerView {
         } else {
             playerService.playEpisode(urlString: viewModel?.episode.streamUrl ?? "")
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(audioPlayerDidFinishPlaying), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: playerService.player)
+        NotificationCenter.default.addObserver(self, selector: #selector(audioPlayerDidFinishPlaying), name: .AVPlayerItemDidPlayToEndTime, object: nil)
+    }
+    
+    private func playNextTrack() {
+        guard let numberIndex = viewModel?.index else { return }
+        if numberIndex + 1 == viewModel?.playlist.count ?? 0 - 1 {
+            viewModel?.index = 0
+            guard let nextEpisode = viewModel?.playlist[0] else { return }
+            viewModel?.episode = nextEpisode
+            playerService.playEpisode(urlString: viewModel?.episode.streamUrl ?? "")
+            updateUI()
+        } else {
+            guard let nextEpisode = viewModel?.playlist[numberIndex + 1] else { return }
+            viewModel?.episode = nextEpisode
+            playerService.playEpisode(urlString: viewModel?.episode.streamUrl ?? "")
+            updateUI()
+            viewModel?.index += 1
+        }
     }
     
     @objc func audioPlayerDidFinishPlaying(notification: NSNotification) {
-        
+        playNextTrack()
     }
     
     private func observePlayerCurrentTime() {
