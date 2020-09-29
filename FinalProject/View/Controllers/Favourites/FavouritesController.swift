@@ -8,62 +8,89 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
+private let favouriteCellID = "FavouritesCell"
 
-class FavouritesController: UICollectionViewController {
+final class FavouritesController: UICollectionViewController {
     
+    private var viewModel = FavouritesViewModel()
+    private let screenWidth = UIScreen.main.bounds.width
+    
+    // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
     }
-
-    // MARK: UICollectionViewDataSource
-
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 0
+    
+    // MARK: - Private functions
+    private func setupNavigation() {
+        title = "Favourites"
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? BaseTabBarController
+        mainTabBarController?.viewControllers?[2].tabBarItem.badgeValue = nil
+    }
+    
+    private func setupView() {
+        setupNavigation()
+        setupCollectionView()
+        getDataForCell()
+    }
+    
+    private func setupCollectionView() {
+        viewModel.delegate = self
+        viewModel.setupObserve()
+        
+        let nib = UINib(nibName: favouriteCellID, bundle: .main)
+        collectionView.register(nib, forCellWithReuseIdentifier: favouriteCellID)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: (screenWidth - 100) / 2, height: 210)
+        layout.minimumLineSpacing = 32
+        layout.sectionInset = UIEdgeInsets(top: 16, left: 32, bottom: 16, right: 32)
+        collectionView.collectionViewLayout = layout
+    }
+    
+    private func getDataForCell() {
+        viewModel.getData { (datas) in
+            if datas {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
+    }
+}
 
+// MARK: - UICollectionView
+extension FavouritesController {
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return 0
+        return viewModel.podcasts.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    
-        // Configure the cell
-    
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: favouriteCellID, for: indexPath) as? FavouritesCell else { return UICollectionViewCell() }
+        cell.viewModel = viewModel.cellForRowAt(indexPath: indexPath)
         return cell
     }
-
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let podcast = viewModel.podcasts[indexPath.row]
+        let episodesViewModel = EpisodesViewModel(podcast: podcast)
+        let episodesController = EpisodesController(viewModel: episodesViewModel)
+        navigationController?.pushViewController(episodesController, animated: true)
     }
-    */
-    
+}
+
+// MARK: - FavouritesViewModelDelegate
+extension FavouritesController: FavouritesViewModelDelegate {
+    func viewModel(_ viewModel: FavouritesViewModel) {
+        getDataForCell()
+    }
 }
