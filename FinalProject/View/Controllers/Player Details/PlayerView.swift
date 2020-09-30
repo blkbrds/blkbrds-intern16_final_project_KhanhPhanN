@@ -9,6 +9,12 @@
 import UIKit
 
 final class PlayerView: UIView {
+    
+    var viewModel: PlayerViewModel? {
+        didSet {
+            updateUI()
+        }
+    }
 
     // MARK: - Outlets
     @IBOutlet weak var backgroundImageView: UIImageView!
@@ -28,6 +34,22 @@ final class PlayerView: UIView {
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var playPauseButton: UIButton!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    private func updateUI() {
+        guard let url = URL(string: viewModel?.episode.imageUrl ?? "") else { return }
+        backgroundImageView.sd_setImage(with: url)
+        thumbImageView.sd_setImage(with: url)
+        miniThumbImageView.sd_setImage(with: url)
+        titleLabel.text = viewModel?.episode.title
+        miniTitleLabel.text = viewModel?.episode.title
+        authorLabel.text = viewModel?.episode.author
+        miniAuthorLabel.text = viewModel?.episode.author
+        backgroundImageView.addBlurEffect()
+    }
+    
     // MARK: - Actions
     @IBOutlet weak var handleDismissTouchUpInside: UIButton!
     @IBOutlet weak var handleTimeSliderTouchUpInside: UISlider!
@@ -37,5 +59,4 @@ final class PlayerView: UIView {
     @IBOutlet weak var handleForwardTouchUpInside: UIButton!
     @IBOutlet weak var handlePlaylistTouchUpInside: UIButton!
     @IBOutlet weak var handleVolumeTouchUpInside: UISlider!
-
 }
