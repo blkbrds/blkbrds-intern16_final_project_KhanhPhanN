@@ -10,4 +10,19 @@ import Foundation
 
 final class HeaderTableCellViewModel {
     
+    var podcast: [Podcast] = []
+    
+    func cellForRowAt(indexPath: IndexPath) -> HeaderCollectionCellViewModel? {
+        let trackName: String = podcast[indexPath.row].trackName ?? ""
+        let artistName: String = podcast[indexPath.row].artistName ?? ""
+        let artworkUrl600: String = podcast[indexPath.row].artworkUrl600 ?? ""
+        return HeaderCollectionCellViewModel(trackName: trackName, artistName: artistName, artworkUrl600: artworkUrl600)
+    }
+    
+    func getData(url: String, completion: @escaping (Bool) -> Void) {
+        Api.Featured.fetchPodcasts(genreID: nil) { (data) in
+            self.podcast = data
+            completion(true)
+        }
+    }
 }

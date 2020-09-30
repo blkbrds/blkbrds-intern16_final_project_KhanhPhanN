@@ -7,12 +7,30 @@
 //
 
 import UIKit
+import SDWebImage
 
-class HeaderCollectionCell: UICollectionViewCell {
+final class HeaderCollectionCell: UICollectionViewCell {
 
+    var viewModel: HeaderCollectionCellViewModel? {
+        didSet {
+            updateUI()
+        }
+    }
+    
+    // MARK: - Outlets
+    @IBOutlet weak var coverImageView: UIImageView!
+    @IBOutlet weak var trackNameLabel: UILabel!
+    @IBOutlet weak var artistNameLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
-
+    
+    private func updateUI() {
+        trackNameLabel.text = viewModel?.trackName
+        artistNameLabel.text = viewModel?.artistName
+        guard let url = URL(string: viewModel?.artworkUrl600 ?? "") else { return }
+        coverImageView.sd_setImage(with: url, completed: nil)
+        coverImageView.sd_imageTransition = .fade
+    }
 }

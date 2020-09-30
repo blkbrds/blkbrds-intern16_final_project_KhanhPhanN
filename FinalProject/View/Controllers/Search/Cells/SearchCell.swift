@@ -7,18 +7,32 @@
 //
 
 import UIKit
+import SDWebImage
 
-class SearchCell: UITableViewCell {
+final class SearchCell: UITableViewCell {
+    
+    var viewModel: SearchCellViewModel? {
+        didSet {
+            updateUI()
+        }
+    }
 
+    @IBOutlet weak var trackImageView: UIImageView!
+    @IBOutlet weak var trackNameLabel: UILabel!
+    @IBOutlet weak var artistNameLabel: UILabel!
+    @IBOutlet weak var genreNamLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    private func updateUI() {
+        trackNameLabel.text = viewModel?.trackName
+        artistNameLabel.text = viewModel?.artistName
+        genreNamLabel.text = viewModel?.primaryGenreName
+        
+        guard let url = URL(string: viewModel?.artworkUrl600 ?? "") else { return }
+        trackImageView.sd_setImage(with: url, placeholderImage: nil, options: .highPriority, context: [.imageThumbnailPixelSize: CGSize(width: 100, height: 100)])
+        trackImageView.sd_imageTransition = .fade
     }
-    
 }

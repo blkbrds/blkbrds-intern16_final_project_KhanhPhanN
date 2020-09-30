@@ -1,7 +1,17 @@
 PODS:
   - Alamofire (4.8.2)
+  - FeedKit (9.1.2)
   - MVVM-Swift (5.0.1)
-  - ObjectMapper (4.2.0)
+  - ObjectMapper (3.5.3)
+  - Realm (5.4.0):
+    - Realm/Headers (= 5.4.0)
+  - Realm/Headers (5.4.0)
+  - RealmSwift (5.4.0):
+    - Realm (= 5.4.0)
+  - SDWebImage (5.9.0):
+    - SDWebImage/Core (= 5.9.0)
+  - SDWebImage/Core (5.9.0)
+  - SVProgressHUD (2.2.5)
   - SwifterSwift (5.2.0):
     - SwifterSwift/AppKit (= 5.2.0)
     - SwifterSwift/CoreAnimation (= 5.2.0)
@@ -32,8 +42,12 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.8.2)
+  - FeedKit (~> 9.0)
   - MVVM-Swift
   - ObjectMapper
+  - RealmSwift
+  - SDWebImage (~> 5.0)
+  - SVProgressHUD
   - SwifterSwift
   - SwiftLint
   - SwiftUtils (= 4.2)
@@ -41,20 +55,30 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - FeedKit
     - MVVM-Swift
     - ObjectMapper
+    - Realm
+    - RealmSwift
+    - SDWebImage
+    - SVProgressHUD
     - SwifterSwift
     - SwiftLint
     - SwiftUtils
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  FeedKit: 71653273ab08e618cd6fd1301ca08fc02dca6a9e
   MVVM-Swift: 0333cd8a16abfe0e93a1423bfddb49b8c11065e1
-  ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
+  ObjectMapper: 97111c97e054a6ee25917662106689f0b4127b37
+  Realm: 8949757d76e2451a53d727954c607e49c2542b77
+  RealmSwift: 0b7d7121e842724188123c6086831ae6d2952050
+  SDWebImage: 62ae4a18473520c67b79e9724c31a63599cc9423
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
   SwiftLint: 1216c910d27c2633ade33b4f071bb6b930982e62
   SwiftUtils: de77bcd1df216c9be6ec7011777302c60a2018a6
 
-PODFILE CHECKSUM: a567e9c350e9d2acbfa5e1bb96b973ac314432f0
+PODFILE CHECKSUM: cfa0e12b549f898a370313f26afd31d1df859a23
 
 COCOAPODS: 1.9.3

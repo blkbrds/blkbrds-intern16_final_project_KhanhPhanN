@@ -10,4 +10,13 @@ import Foundation
 
 final class HeaderCollectionCellViewModel {
     
+    private(set) var trackName: String
+    private(set) var artistName: String
+    private(set) var artworkUrl600: String
+    
+    init(trackName: String, artistName: String, artworkUrl600: String) {
+        self.trackName = trackName
+        self.artistName = artistName
+        self.artworkUrl600 = artworkUrl600
+    }
 }
