@@ -57,6 +57,10 @@ extension FeaturedController {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: itemsTableCellId, for: indexPath) as? ItemsTableCell else { return UITableViewCell() }
             cell.delegate = self
             cell.viewModel = viewModel.viewModelForItem(at: indexPath)
+            
+            cell.seeAllButton.tag = indexPath.row
+            cell.seeAllButton.addTarget(self, action: #selector(handleSeeAllButton), for: .touchUpInside)
+            
             return cell
         }
     }
@@ -68,6 +72,16 @@ extension FeaturedController {
         default:
             return heightForCell
         }
+    }
+}
+
+// MARK: - Action for button
+extension FeaturedController {
+    
+    @objc func handleSeeAllButton(sender: UIButton) {
+        guard let data = viewModel.viewModelForItem(index: sender.tag) else { return }
+        let genreVC = GenreDetailsController(viewModel: data)
+        navigationController?.pushViewController(genreVC, animated: true)
     }
 }
 

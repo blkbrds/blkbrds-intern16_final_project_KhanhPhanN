@@ -47,6 +47,7 @@ final class PlayerView: UIView {
     private let playerService = PlayerService.managePlaying
     private var isPause: Bool = false
     private var currentPage: Int = 0
+    private let playlistCellId: String = "PlaylistCell"
     
     // MARK: - AwakeFromNib
     override func awakeFromNib() {
@@ -104,7 +105,7 @@ final class PlayerView: UIView {
     @IBAction func handleLoppTouchUpInside(_ sender: UIButton) {
         let button: UIButton = sender
         button.isSelected = !button.isSelected
-        if (button.isSelected) {
+        if button.isSelected {
             playerService.loop()
             button.tintColor = .systemOrange
         } else {
@@ -171,6 +172,7 @@ final class PlayerView: UIView {
     }
     
     @IBAction func handleVolumeTouchUpInside(_ sender: UISlider) {
+        // isHiden = true
     }
     
     @IBAction func handleMiniPlayPauseTouchUpInside(_ sender: UIButton) {
@@ -220,7 +222,6 @@ extension PlayerView {
         let durationSeconds = CMTimeGetSeconds(playerService.player.currentItem?.duration ?? CMTimeMake(value: 1, timescale: 1))
         let percentage = currentTimeSeconds / durationSeconds
         self.timeSlider.value = Float(percentage)
-        
         self.miniTimeSlider.value = Float(percentage)
         miniTimeSlider.setThumbImage(UIImage(), for: .normal)
     }
@@ -229,7 +230,7 @@ extension PlayerView {
 // MARK: - Handle Actions
 extension PlayerView {
     @objc func handleTapMaximize() {
-        let mainTabBarController =  UIApplication.shared.keyWindow?.rootViewController as? BaseTabBarController
+        let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? BaseTabBarController
         mainTabBarController?.maximizePlayerDetails()
     }
 }
@@ -245,8 +246,8 @@ extension PlayerView: UIScrollViewDelegate {
 extension PlayerView: UITableViewDelegate, UITableViewDataSource {
     
     private func setupTableView() {
-        let nib = UINib(nibName: "PlaylistCell", bundle: .main)
-        tableView.register(nib, forCellReuseIdentifier: "PlaylistCell")
+        let nib = UINib(nibName: playlistCellId, bundle: .main)
+        tableView.register(nib, forCellReuseIdentifier: playlistCellId)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
@@ -259,7 +260,7 @@ extension PlayerView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PlaylistCell", for: indexPath) as? PlaylistCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: playlistCellId, for: indexPath) as? PlaylistCell else { return UITableViewCell() }
         cell.viewModel = viewModel?.cellForRowAt(indexPath: indexPath)
         cell.backgroundColor = UIColor.clear
         return cell

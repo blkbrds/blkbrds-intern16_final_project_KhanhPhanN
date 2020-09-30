@@ -38,4 +38,9 @@ final class FeaturedViewModel {
         guard let genre = Genres(rawValue: indexPath.row) else { return nil }
         return ItemsTableCellViewModel(genre: genre)
     }
+    
+    func viewModelForItem(index: Int) -> GenreDetailsViewModel? {
+        guard let genre = Genres(rawValue: index) else { return nil }
+        return GenreDetailsViewModel(genre: genre)
+    }
 }

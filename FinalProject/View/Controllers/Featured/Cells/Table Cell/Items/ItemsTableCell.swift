@@ -21,6 +21,7 @@ final class ItemsTableCell: UITableViewCell {
     // MARK: - Outlets
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var genreNameLabel: UILabel!
+    @IBOutlet weak var seeAllButton: UIButton!
     
     weak var delegate: ItemsTableCellDelegate?
     
