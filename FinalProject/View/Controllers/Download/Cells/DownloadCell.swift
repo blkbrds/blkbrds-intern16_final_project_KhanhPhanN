@@ -8,17 +8,27 @@
 
 import UIKit
 
-class DownloadCell: UITableViewCell {
+final class DownloadCell: UITableViewCell {
+    
+    var viewModel: DownloadCellViewModel? {
+        didSet {
+            updateUI()
+        }
+    }
+    
+    @IBOutlet weak var thumbImageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var progressView: UIProgressView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
+    private func updateUI() {
+        titleLabel.text = viewModel?.title
+        authorLabel.text = viewModel?.author
+        guard let url = URL(string: viewModel?.imageUrl ?? "") else { return }
+        thumbImageView.sd_setImage(with: url)
+    }
 }
