@@ -13,12 +13,12 @@ import RealmSwift
 final class EpisodesController: UIViewController {
     
     // MARK: - Outlets
-    @IBOutlet private var headerImageView: UIImageView!
-    @IBOutlet private var avatarImageView: UIImageView!
-    @IBOutlet private var headerNameLabel: UILabel!
-    @IBOutlet private var headerArtistLabel: UILabel!
+    @IBOutlet private weak var headerImageView: UIImageView!
+    @IBOutlet private weak var avatarImageView: UIImageView!
+    @IBOutlet private weak var headerNameLabel: UILabel!
+    @IBOutlet private weak var headerArtistLabel: UILabel!
     
-    @IBOutlet private var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
     
     // MARK: - Properties
     private let viewModel: EpisodesViewModel

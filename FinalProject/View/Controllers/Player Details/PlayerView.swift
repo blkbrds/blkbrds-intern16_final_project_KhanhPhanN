@@ -14,26 +14,26 @@ import AVKit
 final class PlayerView: UIView {
 
     // MARK: - Outlets
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var scrollView: UIScrollView!
     
-    @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet private weak var backgroundImageView: UIImageView!
     @IBOutlet weak var maximizedPlayerView: UIView!
     @IBOutlet weak var miniPlayerView: UIView!
     
-    @IBOutlet weak var miniThumbImageView: UIImageView!
-    @IBOutlet weak var miniTitleLabel: UILabel!
-    @IBOutlet weak var miniAuthorLabel: UILabel!
-    @IBOutlet weak var miniPlayPauseButton: UIButton!
-    @IBOutlet weak var miniTimeSlider: UISlider!
+    @IBOutlet private weak var miniThumbImageView: UIImageView!
+    @IBOutlet private weak var miniTitleLabel: UILabel!
+    @IBOutlet private weak var miniAuthorLabel: UILabel!
+    @IBOutlet private weak var miniPlayPauseButton: UIButton!
+    @IBOutlet private weak var miniTimeSlider: UISlider!
     
-    @IBOutlet weak var thumbImageView: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var authorLabel: UILabel!
-    @IBOutlet weak var timeSlider: UISlider!
-    @IBOutlet weak var currentTimeLabel: UILabel!
-    @IBOutlet weak var durationLabel: UILabel!
-    @IBOutlet weak var playPauseButton: UIButton!
+    @IBOutlet private weak var thumbImageView: UIImageView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var authorLabel: UILabel!
+    @IBOutlet private weak var timeSlider: UISlider!
+    @IBOutlet private weak var currentTimeLabel: UILabel!
+    @IBOutlet private weak var durationLabel: UILabel!
+    @IBOutlet private weak var playPauseButton: UIButton!
     
     // MARK: - Properties
     var viewModel: PlayerViewModel? {
@@ -86,21 +86,21 @@ final class PlayerView: UIView {
     }
     
     // MARK: - Actions
-    @IBAction func handleDismissTouchUpInside(_ sender: UIButton) {
+    @IBAction private func handleDismissTouchUpInside(_ sender: UIButton) {
         let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? BaseTabBarController
         mainTabBarController?.minimizePlayerDetails()
     }
     
-    @IBAction func handleMaximizePlayerViewTouchUpInside(_ sender: UIButton) {
+    @IBAction private func handleMaximizePlayerViewTouchUpInside(_ sender: UIButton) {
         let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? BaseTabBarController
         mainTabBarController?.maximizePlayerDetails()
     }
     
-    @IBAction func handleTimeSliderTouchUpInside(_ sender: UISlider) {
+    @IBAction private func handleTimeSliderTouchUpInside(_ sender: UISlider) {
         playerService.handleTimeSlider(sliderValue: timeSlider.value)
     }
     
-    @IBAction func handleLoppTouchUpInside(_ sender: UIButton) {
+    @IBAction private func handleLoppTouchUpInside(_ sender: UIButton) {
         let button: UIButton = sender
         button.isSelected = !button.isSelected
         if button.isSelected {
@@ -111,7 +111,7 @@ final class PlayerView: UIView {
         }
     }
     
-    @IBAction func handleBackwardTouchUpInside(_ sender: UIButton) {
+    @IBAction private func handleBackwardTouchUpInside(_ sender: UIButton) {
         guard let numberIndex = viewModel?.index else { return }
         if numberIndex == 0 {
             guard let prevEpisode = viewModel?.playlist[0] else { return }
@@ -127,7 +127,7 @@ final class PlayerView: UIView {
         }
     }
     
-    @IBAction func handlePlayPauseTouchUpInside(_ sender: UIButton) {
+    @IBAction private func handlePlayPauseTouchUpInside(_ sender: UIButton) {
         if playerService.player.timeControlStatus == .paused {
             playerService.play()
             playPauseButton.setImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
@@ -142,11 +142,11 @@ final class PlayerView: UIView {
         }
     }
     
-    @IBAction func handleForwardTouchUpInside(_ sender: UIButton) {
+    @IBAction private func handleForwardTouchUpInside(_ sender: UIButton) {
         playNextTrack()
     }
     
-    @IBAction func handlePlaylistTouchUpInside(_ sender: UIButton) {
+    @IBAction private func handlePlaylistTouchUpInside(_ sender: UIButton) {
         if currentPage == 1 {
             currentPage = 1
         } else {
@@ -156,11 +156,11 @@ final class PlayerView: UIView {
             scrollView.setContentOffset(CGPoint(x: x, y: 0), animated: true)
     }
     
-    @IBAction func handleVolumeTouchUpInside(_ sender: UISlider) {
+    @IBAction private func handleVolumeTouchUpInside(_ sender: UISlider) {
         // isHiden = true
     }
     
-    @IBAction func handleMiniPlayPauseTouchUpInside(_ sender: UIButton) {
+    @IBAction private func handleMiniPlayPauseTouchUpInside(_ sender: UIButton) {
         if playerService.player.timeControlStatus == .paused {
             playerService.play()
             miniPlayPauseButton.setImage(UIImage(systemName: "pause.circle"), for: .normal)
@@ -205,7 +205,7 @@ extension PlayerView {
         }
     }
     
-    @objc func audioPlayerDidFinishPlaying(notification: NSNotification) {
+    @objc private func audioPlayerDidFinishPlaying(notification: NSNotification) {
         playNextTrack()
     }
     

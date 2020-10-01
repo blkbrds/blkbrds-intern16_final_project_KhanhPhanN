@@ -18,9 +18,9 @@ final class FavouritesCell: UICollectionViewCell {
     }
     
     // MARK: - Outlets
-    @IBOutlet weak var trackImageView: UIImageView!
-    @IBOutlet weak var trackNameLabel: UILabel!
-    @IBOutlet weak var artistNameLabel: UILabel!
+    @IBOutlet private weak var trackImageView: UIImageView!
+    @IBOutlet private weak var trackNameLabel: UILabel!
+    @IBOutlet private weak var artistNameLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -12,6 +12,7 @@ private let favouriteCellID = "FavouritesCell"
 
 final class FavouritesController: UICollectionViewController {
     
+    // MARK: - Properties
     private var viewModel = FavouritesViewModel()
     private let screenWidth = UIScreen.main.bounds.width
     
