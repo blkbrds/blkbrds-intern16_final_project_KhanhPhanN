@@ -66,6 +66,7 @@ final class PlayerView: UIView {
         authorLabel.text = viewModel?.episode.author
         miniAuthorLabel.text = viewModel?.episode.author
         miniTimeSlider.setThumbImage(UIImage(), for: .normal)
+        timeSlider.setThumbImage(#imageLiteral(resourceName: "slider-thumb"), for: .normal)
     }
     
     private func setupView() {

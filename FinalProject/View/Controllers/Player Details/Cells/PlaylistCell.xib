@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6ca-6f-UG9">
-                        <rect key="frame" x="16" y="9" width="40" height="40"/>
+                        <rect key="frame" x="24" y="9" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="ITb-kw-XQq"/>
                             <constraint firstAttribute="height" constant="40" id="l0u-Wm-w9X"/>
@@ -29,10 +29,10 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="OCj-aD-JPi">
-                        <rect key="frame" x="64" y="12" width="224" height="34"/>
+                        <rect key="frame" x="72" y="12" width="216" height="34"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Có phải anh đang trêu đùa em đấy không?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A2b-Kq-2eX">
-                                <rect key="frame" x="0.0" y="0.0" width="224" height="18"/>
+                                <rect key="frame" x="0.0" y="0.0" width="216" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -47,7 +47,7 @@
                     </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="6ca-6f-UG9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="cLu-eV-4oa"/>
+                    <constraint firstItem="6ca-6f-UG9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="24" id="cLu-eV-4oa"/>
                     <constraint firstItem="6ca-6f-UG9" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="h4p-3w-e47"/>
                     <constraint firstItem="OCj-aD-JPi" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ixo-3J-k9O"/>
                     <constraint firstItem="6ca-6f-UG9" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="swv-gn-c5s"/>
