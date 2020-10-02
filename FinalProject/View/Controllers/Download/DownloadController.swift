@@ -19,6 +19,7 @@ final class DownloadController: UITableViewController {
         super.viewDidLoad()
         setupNavigation()
         setupTableView()
+        setupObserver()
     }
     
     // MARK: - Private functions
@@ -40,11 +41,12 @@ final class DownloadController: UITableViewController {
 extension DownloadController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return viewModel.episodes.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: downloadCellId, for: indexPath) as? DownloadCell else { return UITableViewCell() }
+        cell.viewModel = viewModel.cellForRowAt(indexPath: indexPath)
         return cell
     }
     
@@ -58,5 +60,27 @@ extension DownloadController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         print("Deleted")
+    }
+}
+
+// MARK: - Notification Center
+extension DownloadController {
+    
+    private func setupObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDownloadProgress(notification:)), name: .downloadProgress, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDownloadCompletion(notification:)), name: .downloadComplete, object: nil)
+    }
+    
+    @objc private func handleDownloadProgress(notification: Notification) {
+        guard let userInfo = notification.userInfo as? DownloadProgressInfo else { return }
+        guard let progress = userInfo["progress"] as? Float else { return }
+        guard let episodeTitle = userInfo["title"] as? String else { return }
+        
+        print(progress)
+        print(episodeTitle)
+    }
+    
+    @objc private func handleDownloadCompletion(notification: Notification) {
+        tableView.reloadData()
     }
 }
