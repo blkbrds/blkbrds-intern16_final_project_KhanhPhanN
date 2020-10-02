@@ -80,3 +80,10 @@ extension EpisodesViewModel {
         return PlayerViewModel(episode: episode[indexPath.row], playlist: episode, index: indexPath.row)
     }
 }
+
+extension EpisodesViewModel {
+    
+    func downloadEpisodeAt(index: Int) {
+        Api.Download.fetchDownloadEpisode(episode[index])
+    }
+}

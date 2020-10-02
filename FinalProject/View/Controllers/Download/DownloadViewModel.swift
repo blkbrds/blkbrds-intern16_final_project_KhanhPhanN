@@ -24,4 +24,17 @@ final class DownloadViewModel {
             completion(true)
         }
     }
+    
+    func deleteDownloadedEpisode(at indexPath: IndexPath) {
+        let selectedEpisode = episodes[indexPath.row]
+        DownloadService.shared.deleteDownloadedEpisode(episode: selectedEpisode)
+        episodes.remove(at: indexPath.row)
+    }
+}
+
+extension DownloadViewModel {
+    
+    func viewModelForItem(indexPath: IndexPath) -> PlayerViewModel {
+        return PlayerViewModel(episode: episodes[indexPath.row], playlist: episodes, index: indexPath.row)
+    }
 }

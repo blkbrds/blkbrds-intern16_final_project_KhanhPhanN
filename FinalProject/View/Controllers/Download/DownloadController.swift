@@ -12,14 +12,24 @@ final class DownloadController: UITableViewController {
     
     private let downloadCellId = "DownloadCell"
     private let heightForRow: CGFloat = 92
-    private let viewModel = DownloadViewModel()
+    private var viewModel = DownloadViewModel()
     
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigation()
         setupTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel = DownloadViewModel()
         setupObserver()
+        viewModel.fetchDownloadedEpisode { (data) in
+            if data {
+                self.tableView.reloadData()
+            }
+        }
     }
     
     // MARK: - Private functions
@@ -34,6 +44,7 @@ final class DownloadController: UITableViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
     }
 }
 
@@ -55,11 +66,15 @@ extension DownloadController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Something")
+        let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? BaseTabBarController
+        mainTabBarController?.musicPlayerView?.viewModel = viewModel.viewModelForItem(indexPath: indexPath)
+        mainTabBarController?.maximizePlayerDetails()
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        print("Deleted")
+        viewModel.deleteDownloadedEpisode(at: indexPath)
+        self.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.bottom)
+        tableView.reloadData()
     }
 }
 
@@ -72,15 +87,36 @@ extension DownloadController {
     }
     
     @objc private func handleDownloadProgress(notification: Notification) {
-        guard let userInfo = notification.userInfo as? DownloadProgressInfo else { return }
-        guard let progress = userInfo["progress"] as? Float else { return }
-        guard let episodeTitle = userInfo["title"] as? String else { return }
+        guard let userInfo = notification.userInfo as? [String: Any] else { return }
+        guard let progress = userInfo["progress"] as? Double else { return }
+        guard let title = userInfo["title"] as? String else { return }
         
-        print(progress)
-        print(episodeTitle)
+        guard let index = viewModel.episodes.firstIndex(where: { $0.title == title }) else { return }
+        guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? DownloadCell else { return }
+        cell.progressView.setProgress(Float(progress), animated: false)
+        cell.progressView.isHidden = false
+        
+        while progress < 1 {
+            cell.thumbImageView.alpha = 0.5
+            cell.titleLabel.alpha = 0.5
+            cell.authorLabel.alpha = 0.5
+            break
+        }
+        
+        if progress == 1 {
+            cell.thumbImageView.alpha = 1
+            cell.titleLabel.alpha = 1
+            cell.authorLabel.alpha = 1
+            cell.progressView.isHidden = true
+        }
     }
     
     @objc private func handleDownloadCompletion(notification: Notification) {
-        tableView.reloadData()
+        guard let episodeDownloadComplete = notification.object as? Api.Download.EpisodeDownloadCompletion else { return }
+        guard let index = viewModel.episodes.firstIndex(where: { $0.title == episodeDownloadComplete.episodeTitle }) else { return }
+        viewModel.episodes[index].fileUrl = episodeDownloadComplete.fileUrl
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 }

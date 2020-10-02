@@ -135,4 +135,22 @@ extension EpisodesController: UITableViewDelegate, UITableViewDataSource {
         mainTabBarController?.musicPlayerView?.viewModel = viewModel.viewModelForItem(indexPath: indexPath)
         mainTabBarController?.maximizePlayerDetails()
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        return UISwipeActionsConfiguration(actions: [
+            makeDownloadContextualAction(forRowAt: indexPath)
+        ])
+    }
+}
+
+// MARK: - Download Action
+extension EpisodesController {
+    
+    private func makeDownloadContextualAction(forRowAt indexPath: IndexPath) -> UIContextualAction {
+        return UIContextualAction(style: .normal, title: "Download") { (_, _, completion) in
+            self.viewModel.downloadEpisodeAt(index: indexPath.row)
+            DownloadService.shared.downloadEpisode(self.viewModel.episode[indexPath.row])
+            completion(true)
+        }
+    }
 }

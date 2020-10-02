@@ -11,9 +11,9 @@ import Alamofire
 
 extension Api.Download {
     
-    typealias EpisodeDownloadCompletion = (fileUrl: String, titleEpisode: String)
+    typealias EpisodeDownloadCompletion = (fileUrl: String, episodeTitle: String)
     
-    func fetchDownloadEpisode(_ episode: Episode) {
+    static func fetchDownloadEpisode(_ episode: Episode) {
         
         let downloadRequest = DownloadRequest.suggestedDownloadDestination()
         
@@ -21,7 +21,7 @@ extension Api.Download {
             NotificationCenter.default.post(name: .downloadProgress, object: self, userInfo: ["title": episode.title, "progress": progress.fractionCompleted])
             
         }.response { (response) in
-            let episodeDownloadCompletion = EpisodeDownloadCompletion(fileUrl: response.destinationURL?.absoluteString ?? "", titleEpisode: episode.title)
+            let episodeDownloadCompletion = EpisodeDownloadCompletion(fileUrl: response.destinationURL?.absoluteString ?? "", episodeTitle: episode.title)
             NotificationCenter.default.post(name: .downloadComplete, object: episodeDownloadCompletion, userInfo: nil)
             var downloadedEpisode = DownloadService.shared.downloadedEpisodes()
             
