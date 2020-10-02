@@ -63,7 +63,11 @@ extension EpisodesController {
         setupTableView()
         setupHeaderView()
         setupNavigation()
+        setupObserver()
     }
+    
+    private func setupObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePostFavoutite), name: .savingFavourites, object: nil)}
     
     private func setupNavigation() {
         navigationController?.navigationBar.tintColor = .systemOrange
@@ -77,15 +81,31 @@ extension EpisodesController {
     @objc private func favouriteAction() {
         if viewModel.reaction() {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "favourite-sel"), style: .plain, target: self, action: #selector(favouriteAction))
-            showBadge()
+            showBadgeForFavourite()
+        } else {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "favourite"), style: .plain, target: self, action: #selector(favouriteAction))
+        }
+        NotificationCenter.default.post(name: .savingFavourites, object: nil, userInfo: ["isFavourited": viewModel.isLiked()])
+    }
+    
+    @objc private func handlePostFavoutite(_ notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String: Any] else { return }
+        guard let isFavourited = userInfo["isFavourited"] as? Bool else { return }
+        if isFavourited {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "favourite-sel"), style: .plain, target: self, action: #selector(favouriteAction))
         } else {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "favourite"), style: .plain, target: self, action: #selector(favouriteAction))
         }
     }
     
-    private func showBadge() {
+    private func showBadgeForFavourite() {
         let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? BaseTabBarController
         mainTabBarController?.viewControllers?[2].tabBarItem.badgeValue = "New"
+    }
+    
+    private func showBadgeForDownload() {
+        let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? BaseTabBarController
+        mainTabBarController?.viewControllers?[3].tabBarItem.badgeValue = "New"
     }
     
     private func setupTableView() {
@@ -95,6 +115,7 @@ extension EpisodesController {
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .clear
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
     }
     
     private func setupHeaderView() {
@@ -150,6 +171,7 @@ extension EpisodesController {
         return UIContextualAction(style: .normal, title: "Download") { (_, _, completion) in
             self.viewModel.downloadEpisodeAt(index: indexPath.row)
             DownloadService.shared.downloadEpisode(self.viewModel.episode[indexPath.row])
+            self.showBadgeForDownload()
             completion(true)
         }
     }

@@ -45,6 +45,7 @@ final class SearchController: UITableViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
     }
     
     private func getAPI(searchText: String) {
@@ -63,6 +64,19 @@ extension SearchController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.podcast.count
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "What are you looking for?"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        label.textColor = .systemOrange
+        return label
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return self.viewModel.podcast.isEmpty && searchController.searchBar.text?.isEmpty == true ? 250 : 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

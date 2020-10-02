@@ -30,6 +30,8 @@ final class DownloadController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
+        let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? BaseTabBarController
+        mainTabBarController?.viewControllers?[3].tabBarItem.badgeValue = nil
     }
     
     // MARK: - Private functions
@@ -53,6 +55,19 @@ extension DownloadController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.episodes.count
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "No downloaded episode available..."
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        label.textColor = .systemOrange
+        return label
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return self.viewModel.episodes.isEmpty == true ? 250 : 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
