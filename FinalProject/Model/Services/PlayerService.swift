@@ -49,10 +49,6 @@ final class PlayerService {
     func nextTrack() { }
     
     func loop() {
-        NotificationCenter.default.addObserver(self, selector: #selector(controlLoopMode), name: .AVPlayerItemDidPlayToEndTime, object: nil)
-    }
-    
-    @objc func controlLoopMode() {
         player.seek(to: CMTime.zero)
         player.play()
     }

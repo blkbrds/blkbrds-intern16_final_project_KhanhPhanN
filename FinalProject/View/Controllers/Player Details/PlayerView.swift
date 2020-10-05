@@ -41,6 +41,7 @@ final class PlayerView: UIView {
             updateUI()
             playEpisode()
             tableView.reloadData()
+            index = self.viewModel?.index ?? 0
         }
     }
     
@@ -48,6 +49,8 @@ final class PlayerView: UIView {
     private var isPause: Bool = false
     private var currentPage: Int = 0
     private let playlistCellId: String = "PlaylistCell"
+    private var index: Int = 0
+    private var isLoop: Bool = false
     
     // MARK: - AwakeFromNib
     override func awakeFromNib() {
@@ -70,6 +73,7 @@ final class PlayerView: UIView {
     }
     
     private func setupView() {
+        backgroundImageView.addBlurEffect()
         backgroundImageView.addBlurEffect()
         rotateView()
         setupTableView()
@@ -106,9 +110,10 @@ final class PlayerView: UIView {
         let button: UIButton = sender
         button.isSelected = !button.isSelected
         if button.isSelected {
-            playerService.loop()
+            isLoop = true
             button.tintColor = .systemOrange
         } else {
+            isLoop = false
             button.tintColor = .white
         }
     }
@@ -187,11 +192,13 @@ extension PlayerView {
         } else {
             playerService.playEpisode(urlString: viewModel?.episode.streamUrl ?? "")
         }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(audioPlayerDidFinishPlaying), name: .AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
     private func playNextTrack() {
         guard let numberIndex = viewModel?.index else { return }
+        
         if numberIndex + 1 == viewModel?.playlist.count ?? 0 - 1 {
             viewModel?.index = 0
             guard let nextEpisode = viewModel?.playlist[0] else { return }
@@ -208,7 +215,11 @@ extension PlayerView {
     }
     
     @objc private func audioPlayerDidFinishPlaying(notification: NSNotification) {
-        playNextTrack()
+        if self.isLoop {
+            playerService.loop()
+        } else {
+            playNextTrack()
+        }
     }
     
     private func observePlayerCurrentTime() {
@@ -265,12 +276,19 @@ extension PlayerView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: playlistCellId, for: indexPath) as? PlaylistCell else { return UITableViewCell() }
         cell.viewModel = viewModel?.cellForRowAt(indexPath: indexPath)
+        if indexPath.row == index {
+                   cell.playingImageView.isHidden = false
+                   cell.backgroundColorView.alpha = 1
+               } else {
+                   cell.playingImageView.isHidden = true
+                   cell.backgroundColorView.alpha = 0
+               }
         cell.backgroundColor = UIColor.clear
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 58
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -278,5 +296,22 @@ extension PlayerView: UITableViewDelegate, UITableViewDataSource {
         viewModel?.episode = nextEpisode
         playerService.playEpisode(urlString: viewModel?.episode.streamUrl ?? "")
         updateUI()
+        
+        tableView.deselectRow(at: indexPath, animated: false)
+        if index == indexPath.row {
+            return
+        }
+        
+        if let prevCell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? PlaylistCell {
+            prevCell.playingImageView.isHidden = true
+            prevCell.backgroundColorView.alpha = 0
+        }
+        
+        if let cell = tableView.cellForRow(at: indexPath) as? PlaylistCell {
+            cell.playingImageView.isHidden = false
+            cell.backgroundColorView.alpha = 1
+        }
+        
+        index = indexPath.row
     }
 }

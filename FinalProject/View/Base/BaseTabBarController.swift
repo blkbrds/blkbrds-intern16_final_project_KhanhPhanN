@@ -11,7 +11,6 @@ import UIKit
 final class BaseTabBarController: UITabBarController {
     
     // MARK: - Properties
-//    guard let musicPlayerView = Bundle.main.loadNibNamed("PlayerView", owner: self, options: nil)?.first as? PlayerView else { return UIView() }
     let musicPlayerView = Bundle.main.loadNibNamed("PlayerView", owner: self, options: nil)?.first as? PlayerView
 
     var maximizedTopAnchorConstraint: NSLayoutConstraint!
