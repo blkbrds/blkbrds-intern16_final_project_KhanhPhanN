@@ -86,10 +86,10 @@ extension DownloadController {
         mainTabBarController?.maximizePlayerDetails()
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        viewModel.deleteDownloadedEpisode(at: indexPath)
-        self.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.bottom)
-        tableView.reloadData()
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        return UISwipeActionsConfiguration(actions: [
+            makeDeleteContextualAction(forRowAt: indexPath)
+        ])
     }
 }
 
@@ -133,5 +133,20 @@ extension DownloadController {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
         }
+    }
+}
+
+// MARK: - TableView Cell Action
+extension DownloadController {
+    
+    private func makeDeleteContextualAction(forRowAt indexPath: IndexPath) -> UIContextualAction {
+        let deleteAction = UIContextualAction(style: .destructive, title: "") { (_, _, completion) in
+            self.viewModel.deleteDownloadedEpisode(at: indexPath)
+            self.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.bottom)
+            self.tableView.reloadData()
+            completion(true)
+        }
+        deleteAction.image = UIImage(systemName: "trash")
+        return deleteAction
     }
 }

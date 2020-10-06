@@ -67,7 +67,8 @@ extension EpisodesController {
     }
     
     private func setupObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handlePostFavoutite), name: .savingFavourites, object: nil)}
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePostFavoutite), name: .savingFavourites, object: nil)
+    }
     
     private func setupNavigation() {
         navigationController?.navigationBar.tintColor = .systemOrange
@@ -168,11 +169,14 @@ extension EpisodesController: UITableViewDelegate, UITableViewDataSource {
 extension EpisodesController {
     
     private func makeDownloadContextualAction(forRowAt indexPath: IndexPath) -> UIContextualAction {
-        return UIContextualAction(style: .normal, title: "Download") { (_, _, completion) in
+        let downloadAction = UIContextualAction(style: .normal, title: "") { (_, _, completion) in
             self.viewModel.downloadEpisodeAt(index: indexPath.row)
             DownloadService.shared.downloadEpisode(self.viewModel.episode[indexPath.row])
             self.showBadgeForDownload()
             completion(true)
         }
+        downloadAction.backgroundColor = .systemTeal
+        downloadAction.image = UIImage(systemName: "icloud.and.arrow.down")
+        return downloadAction
     }
 }
