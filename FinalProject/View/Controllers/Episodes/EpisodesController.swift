@@ -169,14 +169,25 @@ extension EpisodesController: UITableViewDelegate, UITableViewDataSource {
 extension EpisodesController {
     
     private func makeDownloadContextualAction(forRowAt indexPath: IndexPath) -> UIContextualAction {
-        let downloadAction = UIContextualAction(style: .normal, title: "") { (_, _, completion) in
-            self.viewModel.downloadEpisodeAt(index: indexPath.row)
-            DownloadService.shared.downloadEpisode(self.viewModel.episode[indexPath.row])
-            self.showBadgeForDownload()
-            completion(true)
+        let downloadedEpisodes = DownloadService.shared.downloadedEpisodes()
+        
+        if downloadedEpisodes.filter({ $0.title == viewModel.episode[indexPath.row].title }).isEmpty {
+            let downloadAction = UIContextualAction(style: .normal, title: "") { (_, _, completion) in
+                self.viewModel.downloadEpisodeAt(index: indexPath.row)
+                DownloadService.shared.downloadEpisode(self.viewModel.episode[indexPath.row])
+                self.showBadgeForDownload()
+                completion(true)
+            }
+            downloadAction.backgroundColor = .systemTeal
+            downloadAction.image = UIImage(systemName: "icloud.and.arrow.down")
+            return downloadAction
+        } else {
+            let downloadAction = UIContextualAction(style: .normal, title: "") { (_, _, completion) in
+                completion(true)
+            }
+            downloadAction.backgroundColor = .gray
+            downloadAction.image = UIImage(systemName: "checkmark.seal.fill")
+            return downloadAction
         }
-        downloadAction.backgroundColor = .systemTeal
-        downloadAction.image = UIImage(systemName: "icloud.and.arrow.down")
-        return downloadAction
     }
 }
