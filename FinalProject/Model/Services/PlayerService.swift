@@ -49,14 +49,12 @@ final class PlayerService {
     func nextTrack() { }
     
     func loop() {
-        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: nil) { (_) in
-            self.player.seek(to: CMTime.zero)
-            self.player.play()
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(controlLoopMode), name: .AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
-    deinit {
-    
+    @objc func controlLoopMode() {
+        player.seek(to: CMTime.zero)
+        player.play()
     }
     
     func handleTimeSlider(sliderValue: Float) {

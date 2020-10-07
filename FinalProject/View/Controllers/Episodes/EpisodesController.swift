@@ -12,6 +12,15 @@ import RealmSwift
 
 final class EpisodesController: UIViewController {
     
+    // MARK: - Outlets
+    @IBOutlet private weak var headerImageView: UIImageView!
+    @IBOutlet private weak var avatarImageView: UIImageView!
+    @IBOutlet private weak var headerNameLabel: UILabel!
+    @IBOutlet private weak var headerArtistLabel: UILabel!
+    
+    @IBOutlet private weak var tableView: UITableView!
+    
+    // MARK: - Properties
     private let viewModel: EpisodesViewModel
     
     init(viewModel: EpisodesViewModel) {
@@ -23,18 +32,9 @@ final class EpisodesController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Properties
     private let episodesCellId: String = "EpisodesCell"
     private let thumbImageSize: CGSize = CGSize(width: 200, height: 200)
     private let heightForCell: CGFloat = 80
-    
-    // MARK: - Outlets
-    @IBOutlet private var headerImageView: UIImageView!
-    @IBOutlet private var avatarImageView: UIImageView!
-    @IBOutlet private var headerNameLabel: UILabel!
-    @IBOutlet private var headerArtistLabel: UILabel!
-    
-    @IBOutlet private var tableView: UITableView!
     
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -77,9 +77,15 @@ extension EpisodesController {
     @objc private func favouriteAction() {
         if viewModel.reaction() {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "favourite-sel"), style: .plain, target: self, action: #selector(favouriteAction))
+            showBadge()
         } else {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "favourite"), style: .plain, target: self, action: #selector(favouriteAction))
         }
+    }
+    
+    private func showBadge() {
+        let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? BaseTabBarController
+        mainTabBarController?.viewControllers?[2].tabBarItem.badgeValue = "New"
     }
     
     private func setupTableView() {

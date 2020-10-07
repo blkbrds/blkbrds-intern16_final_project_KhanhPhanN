@@ -13,7 +13,7 @@ final class GenreDetailsController: UITableViewController {
     // MARK: - Properties
     private let genreCellId = "GenreCell"
     private let heightForCell: CGFloat = 92
-    var viewModel: GenreDetailsViewModel
+    private var viewModel: GenreDetailsViewModel
     
     init(viewModel: GenreDetailsViewModel) {
         self.viewModel = viewModel

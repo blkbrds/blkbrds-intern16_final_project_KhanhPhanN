@@ -285,6 +285,12 @@
                                 </label>
                             </subviews>
                         </stackView>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rat-mg-CS0">
+                            <rect key="frame" x="0.0" y="0.0" width="360" height="60"/>
+                            <connections>
+                                <action selector="handleMaximizePlayerViewTouchUpInside:" destination="iN0-l3-epB" eventType="touchUpInside" id="owx-fV-2h3"/>
+                            </connections>
+                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lh5-zv-P3c">
                             <rect key="frame" x="368" y="12" width="38" height="36"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -304,7 +310,10 @@
                     <constraints>
                         <constraint firstItem="u4h-E6-JUn" firstAttribute="leading" secondItem="rwO-Mv-Geg" secondAttribute="leading" id="5am-r1-h7N"/>
                         <constraint firstAttribute="trailing" secondItem="6AY-Fa-gnh" secondAttribute="trailing" constant="70" id="ETa-5H-kLt"/>
+                        <constraint firstItem="Rat-mg-CS0" firstAttribute="leading" secondItem="rwO-Mv-Geg" secondAttribute="leading" id="JHT-f5-0GQ"/>
                         <constraint firstAttribute="bottom" secondItem="u4h-E6-JUn" secondAttribute="bottom" id="JpU-7n-6tl"/>
+                        <constraint firstAttribute="bottom" secondItem="Rat-mg-CS0" secondAttribute="bottom" id="Nw8-8X-qxO"/>
+                        <constraint firstItem="Rat-mg-CS0" firstAttribute="top" secondItem="rwO-Mv-Geg" secondAttribute="top" id="Omc-GF-rt9"/>
                         <constraint firstItem="u4h-E6-JUn" firstAttribute="top" secondItem="rwO-Mv-Geg" secondAttribute="top" id="PzB-QL-f2D"/>
                         <constraint firstAttribute="height" constant="60" id="UsX-ZR-d7L"/>
                         <constraint firstItem="uWH-fh-g54" firstAttribute="leading" secondItem="rwO-Mv-Geg" secondAttribute="leading" id="VBb-dx-fgd"/>
@@ -312,6 +321,7 @@
                         <constraint firstAttribute="trailing" secondItem="uWH-fh-g54" secondAttribute="trailing" id="brB-sT-7Fj"/>
                         <constraint firstItem="6AY-Fa-gnh" firstAttribute="leading" secondItem="u4h-E6-JUn" secondAttribute="trailing" constant="8" id="e00-jF-Zcu"/>
                         <constraint firstItem="6AY-Fa-gnh" firstAttribute="centerY" secondItem="rwO-Mv-Geg" secondAttribute="centerY" id="h3B-0D-bz5"/>
+                        <constraint firstItem="Lh5-zv-P3c" firstAttribute="leading" secondItem="Rat-mg-CS0" secondAttribute="trailing" constant="8" id="o1G-uN-jYH"/>
                         <constraint firstItem="Lh5-zv-P3c" firstAttribute="centerY" secondItem="rwO-Mv-Geg" secondAttribute="centerY" id="q2F-iL-Y2R"/>
                         <constraint firstAttribute="trailing" secondItem="Lh5-zv-P3c" secondAttribute="trailing" constant="8" id="vSs-ea-7tj"/>
                     </constraints>
