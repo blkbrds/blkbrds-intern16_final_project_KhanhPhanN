@@ -65,6 +65,7 @@ final class PlayerView: UIView {
         miniTitleLabel.text = viewModel?.episode.title
         authorLabel.text = viewModel?.episode.author
         miniAuthorLabel.text = viewModel?.episode.author
+        miniTimeSlider.setThumbImage(UIImage(), for: .normal)
     }
     
     private func setupView() {
@@ -225,7 +226,6 @@ extension PlayerView {
         let percentage = currentTimeSeconds / durationSeconds
         self.timeSlider.value = Float(percentage)
         self.miniTimeSlider.value = Float(percentage)
-        miniTimeSlider.setThumbImage(UIImage(), for: .normal)
     }
 }
 

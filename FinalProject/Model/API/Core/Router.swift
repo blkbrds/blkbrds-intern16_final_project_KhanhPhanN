@@ -19,6 +19,8 @@ final class Api {
     struct Featured { }
     
     struct Episode { }
+    
+    struct Download { }
 }
 
 extension Api.Path {
