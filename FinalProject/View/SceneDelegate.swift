@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -30,4 +31,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) { }
 
     func sceneDidEnterBackground(_ scene: UIScene) { }
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default)
+        } catch let error as NSError {
+            print("Setting category to AVAudioSessionCategoryPlayback failed: \(error)")
+        }
+        return true
+    }
 }
