@@ -96,19 +96,6 @@ extension SearchController {
         let episodesController = EpisodesController(viewModel: episodesViewModel)
         navigationController?.pushViewController(episodesController, animated: true)
     }
-    
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        return UISwipeActionsConfiguration(actions: [
-            makeDownloadContextualAction(forRowAt: indexPath)
-        ])
-    }
-    
-    private func makeDownloadContextualAction(forRowAt indexPath: IndexPath) -> UIContextualAction {
-        return UIContextualAction(style: .destructive, title: "Download") { (_, _, completion) in
-            print("DOWNLOADED CELL \(indexPath.row)")
-            completion(true)
-        }
-    }
 }
 
 // MARK: - UISearchBarDelegate
