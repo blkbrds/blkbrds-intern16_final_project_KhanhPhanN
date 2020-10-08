@@ -30,6 +30,8 @@ final class DownloadController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
+        let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? BaseTabBarController
+        mainTabBarController?.viewControllers?[3].tabBarItem.badgeValue = nil
     }
     
     // MARK: - Private functions
@@ -55,6 +57,19 @@ extension DownloadController {
         return viewModel.episodes.count
     }
     
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "No downloaded episode available..."
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        label.textColor = .systemOrange
+        return label
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return self.viewModel.episodes.isEmpty == true ? 250 : 0
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: downloadCellId, for: indexPath) as? DownloadCell else { return UITableViewCell() }
         cell.viewModel = viewModel.cellForRowAt(indexPath: indexPath)
@@ -71,10 +86,10 @@ extension DownloadController {
         mainTabBarController?.maximizePlayerDetails()
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        viewModel.deleteDownloadedEpisode(at: indexPath)
-        self.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.bottom)
-        tableView.reloadData()
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        return UISwipeActionsConfiguration(actions: [
+            makeDeleteContextualAction(forRowAt: indexPath)
+        ])
     }
 }
 
@@ -118,5 +133,20 @@ extension DownloadController {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
         }
+    }
+}
+
+// MARK: - TableView Cell Action
+extension DownloadController {
+    
+    private func makeDeleteContextualAction(forRowAt indexPath: IndexPath) -> UIContextualAction {
+        let deleteAction = UIContextualAction(style: .destructive, title: "") { (_, _, completion) in
+            self.viewModel.deleteDownloadedEpisode(at: indexPath)
+            self.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.bottom)
+            self.tableView.reloadData()
+            completion(true)
+        }
+        deleteAction.image = UIImage(systemName: "trash")
+        return deleteAction
     }
 }

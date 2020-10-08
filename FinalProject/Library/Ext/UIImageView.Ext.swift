@@ -44,13 +44,12 @@ extension UIView {
 
 extension UIView {
 
-    func addGradient(frame: CGRect) {
-        let gradientView = UIView(frame: self.frame)
+    func addHorizontalGradient(frame: CGRect, colors: [UIColor]) {
         let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = frame
-        gradientLayer.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
-        gradientLayer.locations = [0.5, 1.0]
-        gradientView.layer.insertSublayer(gradientLayer, at: 0)
-        addSubview(gradientView)
+        gradientLayer.frame = self.frame
+        gradientLayer.colors = colors.map { $0.cgColor }
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        self.layer.insertSublayer(gradientLayer, at: 0)
     }
 }

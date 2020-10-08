@@ -36,7 +36,7 @@ final class FavouritesViewModel {
                 object.artistName = item.artistName ?? ""
                 object.artworkUrl600 = item.artworkUrl600 ?? ""
                 object.feedUrl = item.feedUrl
-                podcasts.append(object)
+                podcasts.insert(object, at: 0)
             }
             completion(true)
         } catch {

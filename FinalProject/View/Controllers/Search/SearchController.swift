@@ -45,6 +45,7 @@ final class SearchController: UITableViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
     }
     
     private func getAPI(searchText: String) {
@@ -65,6 +66,19 @@ extension SearchController {
         return viewModel.podcast.count
     }
     
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "What are you looking for?"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        label.textColor = .systemOrange
+        return label
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return self.viewModel.podcast.isEmpty && searchController.searchBar.text?.isEmpty == true ? 250 : 0
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: searchCellId, for: indexPath) as? SearchCell else { return UITableViewCell() }
         cell.viewModel = viewModel.cellForRowAt(indexPath: indexPath)
@@ -81,19 +95,6 @@ extension SearchController {
         let episodesViewModel = EpisodesViewModel(podcast: podcast)
         let episodesController = EpisodesController(viewModel: episodesViewModel)
         navigationController?.pushViewController(episodesController, animated: true)
-    }
-    
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        return UISwipeActionsConfiguration(actions: [
-            makeDownloadContextualAction(forRowAt: indexPath)
-        ])
-    }
-    
-    private func makeDownloadContextualAction(forRowAt indexPath: IndexPath) -> UIContextualAction {
-        return UIContextualAction(style: .destructive, title: "Download") { (_, _, completion) in
-            print("DOWNLOADED CELL \(indexPath.row)")
-            completion(true)
-        }
     }
 }
 

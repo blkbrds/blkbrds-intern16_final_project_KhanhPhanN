@@ -8,15 +8,11 @@ target 'FinalProject' do
 
   pod 'RealmSwift'
 
-  pod 'SVProgressHUD'
-
   pod 'SwifterSwift'
 
   pod 'SDWebImage', '~> 5.0'
 
   pod 'FeedKit', '~> 9.0'
-
-  pod 'SVProgressHUD'
 
   pod 'Alamofire', '~> 4.8.2'
 

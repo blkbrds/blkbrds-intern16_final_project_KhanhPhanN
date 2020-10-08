@@ -54,6 +54,7 @@ final class FavouritesController: UICollectionViewController {
         layout.minimumLineSpacing = 32
         layout.sectionInset = UIEdgeInsets(top: 16, left: 32, bottom: 16, right: 32)
         collectionView.collectionViewLayout = layout
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
     }
     
     private func getDataForCell() {
