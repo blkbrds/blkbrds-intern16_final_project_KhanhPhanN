@@ -72,11 +72,16 @@ extension EpisodesController {
     
     private func setupNavigation() {
         navigationController?.navigationBar.tintColor = .systemOrange
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "back-button"), target: self, action: #selector(handlePopToPrevVC))
         if viewModel.isLiked() {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "favourite-sel"), style: .plain, target: self, action: #selector(favouriteAction))
         } else {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "favourite"), style: .plain, target: self, action: #selector(favouriteAction))
         }
+    }
+    
+    @objc private func handlePopToPrevVC() {
+        navigationController?.popViewController(animated: true)
     }
     
     @objc private func favouriteAction() {
