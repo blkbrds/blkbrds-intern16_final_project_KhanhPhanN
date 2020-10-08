@@ -37,4 +37,18 @@ final class DownloadService {
         }
         return []
     }
+    
+    func deleteDownloadedEpisode(episode: Episode) {
+        let savedEpisodes = downloadedEpisodes()
+        let filteredEpisodes = savedEpisodes.filter { (filter) -> Bool in
+            return filter.title != episode.title
+        }
+        
+        do {
+            let data = try JSONEncoder().encode(filteredEpisodes)
+            UserDefaults.standard.set(data, forKey: UserDefaults.downloadedEpisodesKey)
+        } catch let err {
+            print("Error:", err)
+        }
+    }
 }
